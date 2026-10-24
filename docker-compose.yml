@@ -15,5 +15,19 @@ services:
     ports:
       - "6379:6379"
 
+  # S3-compatible object storage for incident attachments. MinIO stopped
+  # publishing community images in 2025, so local dev uses RustFS.
+  storage:
+    image: rustfs/rustfs:1.0.3
+    environment:
+      RUSTFS_ACCESS_KEY: triage
+      RUSTFS_SECRET_KEY: triage-secret
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - objects:/data
+
 volumes:
   pgdata:
+  objects:
